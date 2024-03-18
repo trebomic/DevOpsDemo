@@ -126,6 +126,14 @@ export class GuiModel {
                             }
                         },
                         {
+                            "type": "button",
+                            "name": { default: "Module" },
+                            "icon": "fa-file-alt",
+                            "color": "wet-asphalt",
+                            "page": "modulePage",
+                            "width": 2,
+                            },
+                        {
                             "type": "list",
                             "name": "ToDo",
                             "icon": "fa-user",
