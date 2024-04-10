@@ -7,7 +7,7 @@ export class GuiModel {
             "formList": [
                 {
                     "id": "OwnUserForm",
-                    "title": "NotImplemented",
+                    "title": "Not Implemented",
                     "formFieldList": [
                         {
                             "type": "okButton",
