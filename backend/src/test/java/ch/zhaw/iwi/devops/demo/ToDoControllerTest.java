@@ -1,9 +1,10 @@
 package ch.zhaw.iwi.devops.demo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import java.util.List;
 
 public class ToDoControllerTest {
 
@@ -17,16 +18,24 @@ public class ToDoControllerTest {
     }
 
     @Test
-    public void testDelete() {
+    public void testSearchTodosByTitle() {
+        // Initialisierung
         ToDoController controller = new ToDoController();
-        var todo = new ToDo(2, "Beispiel", "Beschreibung");
-        controller.createTodo(2, todo);
-        assertEquals(1, controller.count()); // Sicherstellen, dass das Todo hinzugefügt wurde
+        controller.createTodo(new ToDo(0, "Test Todo", "Beschreibung"));
+        controller.createTodo(new ToDo(0, "Ein weiteres Todo", "Mit anderer Beschreibung"));
+        controller.createTodo(new ToDo(0, "Relevante Suche", "Suche nach diesem"));
 
-        controller.deleteTodo(2);
-        assertEquals(0, controller.count()); // Überprüfen, ob das Todo gelöscht wurde
-        assertNull(controller.getTodo(2)); // Sicherstellen, dass das Todo nicht mehr abgerufen werden kann
+        // Suche nach einem Titel, der in einem ToDo vorhanden ist
+        List<ToDo> results = controller.searchTodosByTitle("Relevante");
+        assertEquals(1, results.size(), "Sollte genau ein ToDo finden.");
+        assertEquals("Relevante Suche", results.get(0).getTitle(), "Der Titel des gefundenen ToDo stimmt nicht überein.");
+
+        // Suche mit Gross- und Kleinschreibung
+        results = controller.searchTodosByTitle("relevante");
+        assertEquals(1, results.size(), "Sollte genau ein ToDo finden, unabhängig von der Gross-/Kleinschreibung.");
+
+        // Suche, die keine Ergebnisse liefern sollte
+        results = controller.searchTodosByTitle("Nicht existent");
+        assertTrue(results.isEmpty(), "Sollte keine ToDos finden, da der Suchbegriff nicht vorhanden ist.");
     }
-
-
 }
