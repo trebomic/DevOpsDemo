@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ToDoController {
 
-    private Map<Integer, ToDo> todos = new HashMap<Integer, ToDo>();
+    private final Map<Integer, ToDo> todos = new HashMap<>();
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        this.todos.put(1,new ToDo(1, "Neuer Job", "5 DevOps Engineers einstellen"));
-        this.todos.put(2,new ToDo(2, "Geschäftsleitung", "Mit Präsentation von DevOps überzeugen"));
-        this.todos.put(3,new ToDo(3, "Unit Tests", "Neues Projekt mit Unit Tests starten"));
-        this.todos.put(4,new ToDo(4, "Deployment", "Jede Woche!"));
-        this.todos.put(5,new ToDo(5, "Organigramm", "Löschen"));
+        this.todos.put(1, new ToDo(1, "Neuer Job", "5 DevOps Engineers einstellen"));
+        this.todos.put(2, new ToDo(2, "Geschäftsleitung", "Mit Präsentation von DevOps überzeugen"));
+        this.todos.put(3, new ToDo(3, "Unit Tests", "Neues Projekt mit Unit Tests starten"));
+        this.todos.put(4, new ToDo(4, "Deployment", "Jede Woche!"));
+        this.todos.put(5, new ToDo(5, "Organigramm", "Löschen"));
         System.out.println("Init Data");
     }
 
@@ -34,7 +34,7 @@ public class ToDoController {
     @GetMapping("/services/ping")
     public String ping() {
         String languageCode = "de";
-        return "{ \"status\": \"ok\", \"userId\": \"admin"+ "\", \"languageCode\": \"" + languageCode + "\",\"version\": \"0.0.1" + "\"}";
+        return String.format("{ \"status\": \"ok\", \"userId\": \"admin\", \"languageCode\": \"%s\",\"version\": \"0.0.1\"}", languageCode);
     }
 
     @GetMapping("/count")
@@ -44,15 +44,15 @@ public class ToDoController {
 
     @GetMapping("/services/todo")
     public List<PathListEntry<Integer>> todo() {
-        var result = new ArrayList<PathListEntry<Integer>>();
-        for (var todo : this.todos.values()) {
-            var entry = new PathListEntry<Integer>();
+        List<PathListEntry<Integer>> result = new ArrayList<>();
+        this.todos.values().forEach(todo -> {
+            PathListEntry<Integer> entry = new PathListEntry<>();
             entry.setKey(todo.getId(), "todoKey");
             entry.setName(todo.getTitle());
             entry.getDetails().add(todo.getDescription());
             entry.setTooltip(todo.getDescription());
             result.add(entry);
-        }
+        });
         return result;
     }
 
@@ -63,13 +63,13 @@ public class ToDoController {
 
     @PostMapping("/services/todo")
     public void createTodo(@RequestBody ToDo todo) {
-        var newId = this.todos.keySet().stream().max(Comparator.naturalOrder()).orElse(0) + 1;
+        int newId = this.todos.keySet().stream().max(Comparator.naturalOrder()).orElse(0) + 1;
         todo.setId(newId);
         this.todos.put(newId, todo);
     }
 
     @PutMapping("/services/todo/{id}")
-    public void createTodo(@PathVariable Integer id, @RequestBody ToDo todo) {
+    public void updateTodo(@PathVariable Integer id, @RequestBody ToDo todo) {
         todo.setId(id);
         this.todos.put(id, todo);
     }
@@ -81,13 +81,8 @@ public class ToDoController {
 
     @GetMapping("/services/todo/search")
     public List<ToDo> searchTodosByTitle(@RequestParam String title) {
-        List<ToDo> filteredTodos = new ArrayList<>();
-        for (ToDo todo : this.todos.values()) {
-            if (todo.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                filteredTodos.add(todo);
-            }
-        }
-        return filteredTodos;
+        return this.todos.values().stream()
+                .filter(todo -> todo.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .toList();
     }
-
 }
