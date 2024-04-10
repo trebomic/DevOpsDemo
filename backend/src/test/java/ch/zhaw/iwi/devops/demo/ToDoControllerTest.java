@@ -15,4 +15,17 @@ public class ToDoControllerTest {
         assertEquals(1, controller.todo().size());
     }
 
+    @Test
+    public void testDelete() {
+        ToDoController controller = new ToDoController();
+        controller.init(); // Initialisiert die ToDo-Liste mit Standardwerten.
+
+        int initialCount = controller.count(); // Speichert die Anfangsgröße der ToDo-Liste.
+
+        controller.deleteTodo(1); // Löscht das ToDo-Element mit der ID 1.
+
+        assertEquals(initialCount - 1, controller.count()); // Überprüft, ob die Größe der Liste um eins verringert wurde.
+        assertNull(controller.getTodo(1)); // Stellt sicher, dass das ToDo-Element mit der ID 1 nicht mehr existiert.
+    }
+
 }
