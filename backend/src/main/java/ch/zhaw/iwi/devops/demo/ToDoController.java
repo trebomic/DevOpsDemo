@@ -86,5 +86,15 @@ public class ToDoController {
         return this.todos.remove(key);
     }
 
+    @PutMapping("/services/todo/{id}/description")
+    public ResponseEntity<String> updateTodoDescription(@PathVariable Integer id, @RequestBody String description) {
+        ToDo todo = this.todos.get(id);
+        if (todo == null) {
+            return ResponseEntity.badRequest().body("ToDo mit ID " + id + " existiert nicht.");
+        }
+        todo.setDescription(description);
+        this.todos.put(id, todo);
+        return ResponseEntity.ok("Beschreibung des ToDo mit ID " + id + " wurde erfolgreich aktualisiert.");
+    }
 
 }
