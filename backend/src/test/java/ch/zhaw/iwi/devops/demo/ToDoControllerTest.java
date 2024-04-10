@@ -21,10 +21,10 @@ public class ToDoControllerTest {
         ToDoController controller = new ToDoController();
         var todo = new ToDo(2, "Beispiel", "Beschreibung");
         controller.createTodo(2, todo);
-        assertEquals(1, controller.count()); // Stellen Sie sicher, dass das Todo hinzugefügt wurde
+        assertEquals(1, controller.count()); // Sicherstellen, dass das Todo hinzugefügt wurde
 
         controller.deleteTodo(2);
         assertEquals(0, controller.count()); // Überprüfen, ob das Todo gelöscht wurde
-        assertNull(controller.getTodo(2)); // Stellen Sie sicher, dass das Todo nicht mehr abgerufen werden kann
+        assertNull(controller.getTodo(2)); // Sicherstellen, dass das Todo nicht mehr abgerufen werden kann
     }
 }
