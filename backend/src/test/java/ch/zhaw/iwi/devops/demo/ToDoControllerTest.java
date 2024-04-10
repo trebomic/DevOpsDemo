@@ -38,4 +38,17 @@ public class ToDoControllerTest {
         results = controller.searchTodosByTitle("Nicht existent");
         assertTrue(results.isEmpty(), "Sollte keine ToDos finden, da der Suchbegriff nicht vorhanden ist.");
     }
+
+    @Test
+    public void testTestEndpoint() {
+        // Initialisierung
+        ToDoController controller = new ToDoController();
+
+        // Aufruf der zu testenden Methode
+        String response = controller.test();
+
+        // Überprüfung der Antwort
+        assertEquals("ToDo app is up and running!", response, "Die Antwort des /test Endpunkts ist nicht wie erwartet.");
+    }
+
 }
