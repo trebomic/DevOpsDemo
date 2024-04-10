@@ -33,8 +33,7 @@ public class ToDoController {
 
     @GetMapping("/services/ping")
     public String ping() {
-        String languageCode = "de";
-        return String.format("{ \"status\": \"ok\", \"userId\": \"admin\", \"languageCode\": \"%s\",\"version\": \"0.0.1\"}", languageCode);
+        return String.format("{ \"status\": \"ok\", \"userId\": \"admin\", \"languageCode\": \"%s\",\"version\": \"0.0.1\"}", "de");
     }
 
     @GetMapping("/count")
@@ -69,7 +68,7 @@ public class ToDoController {
     }
 
     @PutMapping("/services/todo/{id}")
-    public void updateTodo(@PathVariable Integer id, @RequestBody ToDo todo) {
+    public void createTodo(@PathVariable Integer id, @RequestBody ToDo todo) {
         todo.setId(id);
         this.todos.put(id, todo);
     }
@@ -81,8 +80,13 @@ public class ToDoController {
 
     @GetMapping("/services/todo/search")
     public List<ToDo> searchTodosByTitle(@RequestParam String title) {
-        return this.todos.values().stream()
-                .filter(todo -> todo.getTitle().toLowerCase().contains(title.toLowerCase()))
-                .toList();
+        List<ToDo> filteredTodos = new ArrayList<>();
+        for (ToDo todo : this.todos.values()) {
+            if (todo.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                filteredTodos.add(todo);
+            }
+        }
+        return filteredTodos;
     }
+
 }
