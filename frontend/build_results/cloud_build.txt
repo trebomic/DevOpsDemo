@@ -1,0 +1,75 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/trebomic/DevOpsDemo
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins Agent-00000g6ip7550 on Docker in /home/jenkins/workspace/DevOpsPipeline1
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/trebomic/DevOpsDemo
+ > git init /home/jenkins/workspace/DevOpsPipeline1 # timeout=10
+Fetching upstream changes from https://github.com/trebomic/DevOpsDemo
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --tags --force --progress -- https://github.com/trebomic/DevOpsDemo +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/trebomic/DevOpsDemo # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision aae63ecb47abbd20570ab1ed3535445e168cc8d4 (refs/remotes/origin/main)
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f aae63ecb47abbd20570ab1ed3535445e168cc8d4 # timeout=10
+Commit message: "Move Jenkinsfile"
+ > git rev-list --no-walk aae63ecb47abbd20570ab1ed3535445e168cc8d4 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] sh
++ echo checkout
+checkout
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Fetching changes from the remote Git repository
+Checking out Revision aae63ecb47abbd20570ab1ed3535445e168cc8d4 (refs/remotes/origin/main)
+Commit message: "Move Jenkinsfile"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] sh
+ > git rev-parse --resolve-git-dir /home/jenkins/workspace/DevOpsPipeline1/.git # timeout=10
+ > git config remote.origin.url https://github.com/trebomic/DevOpsDemo # timeout=10
+Fetching upstream changes from https://github.com/trebomic/DevOpsDemo
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --tags --force --progress -- https://github.com/trebomic/DevOpsDemo +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f aae63ecb47abbd20570ab1ed3535445e168cc8d4 # timeout=10
++ echo test
+test
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+[Pipeline] sh
++ echo deploy
+deploy
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
